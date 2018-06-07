@@ -296,7 +296,7 @@ function mouseMove(e){
 
 
         //checking for necessity of loading new videos and show new one if need
-        if(Math.abs(clickX - e.clientX) > 165){
+        if(Math.abs(clickX - e.clientX) > 185){
             movable = false;
 
             //define direction

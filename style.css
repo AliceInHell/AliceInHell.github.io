@@ -1,6 +1,6 @@
 body{
     overflow-x: hidden;
-    background-color: azure;
+    background-color: darkkhaki;
 }
 
 .form {
@@ -41,17 +41,39 @@ img{
 }
 
 .description{
+    font-family: Permanent-Marker;
     height: 150px;
     font-style: italic;
     text-align: left;
 }
 
-.duration .author {
+.duration, .author {
     font-style: normal;
-    font-size: 4px;
+    font-size: 12px;
+}
+
+button {
+    margin-top: 5px;
+    width: 80px;
+    height: 24px;
+    font-size: 18px;
+    background: -moz-linear-gradient(darkkhaki, gray);
+}
+
+input {
+    height: 30px;
+    font-size: 18px;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 @-webkit-keyframes letsAppear {
     0% { opacity: 0;}
     100% { opacity: 1;}
+}
+
+@font-face {
+    font-family: Permanent-Marker;
+    src: url(./eurostile.TTF);
 }
