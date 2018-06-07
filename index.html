@@ -13,18 +13,15 @@
                 <input id="query" type="text"/>
                 <button onclick="search()">Search</button>
             </form>
-            <div id="videoList" class="container">
-
-            </div>
+            <div id="videoList" class="container"></div>
         </div>
         <template id="tpl">
-            <div class="simple">
+            <div class="simple" onselectstart="return false">
                 <a target="_blank"><img/></a>
-                <div id="title"></div>
-                <br>
-                <div id="description"></div>
-                <div id="duration"></div>
-                <div id="author"></div>
+                <div id="title" class="title"></div>
+                <div id="description" class="description"></div>
+                <div id="duration" class="duration"></div>
+                <div id="author" class="author"></div>
             </div>
         </template>
     </body>

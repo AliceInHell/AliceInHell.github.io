@@ -1,5 +1,6 @@
 body{
     overflow-x: hidden;
+    background-color: azure;
 }
 
 .form {
@@ -14,15 +15,43 @@ body{
 .simple{
     padding: 10px;
     max-width: 266px;
+    height: 400px;
     margin: auto;
+    animation: letsAppear 1s ease-in;
+    word-wrap: break-word;
 }
 
 .container{
     display: flex;
     flex-wrap: wrap;
+    position: relative;
+    left: 1px;
 }
 
 img{
     width: 266px;
     height: 150px;
+    border: 4px inset black;
+}
+
+.title{
+    height: 130px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.description{
+    height: 150px;
+    font-style: italic;
+    text-align: left;
+}
+
+.duration .author {
+    font-style: normal;
+    font-size: 4px;
+}
+
+@-webkit-keyframes letsAppear {
+    0% { opacity: 0;}
+    100% { opacity: 1;}
 }
