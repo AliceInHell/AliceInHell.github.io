@@ -1,0 +1,28 @@
+body{
+    overflow-x: hidden;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: center;
+    height: 70px;
+}
+
+.simple{
+    padding: 10px;
+    max-width: 266px;
+    margin: auto;
+}
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img{
+    width: 266px;
+    height: 150px;
+}
