@@ -165,25 +165,7 @@ function insertVideo(i){
     let simpleVideo = document.getElementById('tpl').content.children[0];
     videoList.appendChild(simpleVideo.cloneNode(true));
 
-    let videos = document.getElementsByClassName('simple');
-    let fields = videos[i].getElementsByTagName('div');
-    fields[0].innerHTML = globalResponse[currentLeftIndex + i].snippet.title;
-    if(globalResponse[currentLeftIndex + i].snippet.description === "")
-        fields[1].innerHTML = "(No description)";
-    else
-        fields[1].innerHTML = globalResponse[currentLeftIndex + i].snippet.description;
-    fields[3].innerHTML = globalResponse[currentLeftIndex + i].snippet.channelTitle;
-    videos[i].getElementsByTagName('img')[0].src = "http://i.ytimg.com/vi/" + globalResponse[currentLeftIndex + i].id.videoId + "/mqdefault.jpg";
-    videos[i].getElementsByTagName('a')[0].href = "https://www.youtube.com/watch?v=" + globalResponse[currentLeftIndex + i].id.videoId;
-
-    //get duration
-    let getRequest = new XMLHttpRequest();
-    getRequest.open("GET", "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + globalResponse[currentLeftIndex + i].id.videoId + "&key=" + APIKey, true);
-    getRequest.onreadystatechange = function(){
-
-        fields[2].innerHTML = getDuration(JSON.parse(getRequest.responseText).items[0].contentDetails.duration);
-    };
-    getRequest.send(null);
+    insertInfo(i, currentLeftIndex + i);
 }
 
 
@@ -195,20 +177,28 @@ function insertVideoToStart(i){
     let simpleVideo = document.getElementById('tpl').content.children[0];
     videoList.insertBefore(simpleVideo.cloneNode(true), videoList.firstChild);
 
+    insertInfo(0, i);
+}
+
+
+
+
+//insert info into simple block
+function insertInfo(i, j){
     let videos = document.getElementsByClassName('simple');
-    let fields = videos[0].getElementsByTagName('div');
-    fields[0].innerHTML = globalResponse[i].snippet.title;
-    if(globalResponse[i].snippet.description === "")
+    let fields = videos[i].getElementsByTagName('div');
+    fields[0].innerHTML = globalResponse[j].snippet.title;
+    if(globalResponse[j].snippet.description === "")
         fields[1].innerHTML = "No description";
     else
-        fields[1].innerHTML = globalResponse[i].snippet.description;
-    fields[3].innerHTML = globalResponse[i].snippet.channelTitle;
-    videos[0].getElementsByTagName('img')[0].src = "http://i.ytimg.com/vi/" + globalResponse[i].id.videoId + "/mqdefault.jpg";
-    videos[0].getElementsByTagName('a')[0].href = "https://www.youtube.com/watch?v=" + globalResponse[i].id.videoId;
+        fields[1].innerHTML = globalResponse[j].snippet.description;
+    fields[3].innerHTML = globalResponse[j].snippet.channelTitle;
+    videos[i].getElementsByTagName('img')[0].src = "http://i.ytimg.com/vi/" + globalResponse[j].id.videoId + "/mqdefault.jpg";
+    videos[i].getElementsByTagName('a')[0].href = "https://www.youtube.com/watch?v=" + globalResponse[j].id.videoId;
 
     //get duration
     let getRequest = new XMLHttpRequest();
-    getRequest.open("GET", "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + globalResponse[i].id.videoId + "&key=" + APIKey, true);
+    getRequest.open("GET", "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + globalResponse[j].id.videoId + "&key=" + APIKey, true);
     getRequest.onreadystatechange = function(){
 
         fields[2].innerHTML = getDuration(JSON.parse(getRequest.responseText).items[0].contentDetails.duration);
@@ -299,39 +289,49 @@ function mouseMove(e){
         if(Math.abs(clickX - e.clientX) > 185){
             movable = false;
 
-            //define direction
-            if(clickX - e.clientX > 0) {
-                //----->
-                clickX = e.clientX;
-
-                //we must add video to the right side
-                if (currentLeftIndex + getCurrentVideoCount() + 1 === globalResponse.length) {
-                    //have to load new 5 videos
-                    getPage(nextPageToken);
-                }
-
-                //delete first video and show last
-                insertVideo(getCurrentVideoCount());
-                let fc = container.firstChild;
-                container.removeChild(fc);
-                currentLeftIndex += 1;
-                container.style.left = '1px';
-            }
-            else
-            {
-                //<------
-                clickX = e.clientX;
-
-                let fc = container.lastChild;
-                container.removeChild(fc);
-                insertVideoToStart(currentLeftIndex - 1);
-                currentLeftIndex -= 1;
-                container.style.left = '1px';
-            }
+            removeBlocks(container, e.clientX);
 
             movable = true;
+
             deleteTrash(container, getCurrentVideoCount());
         }
+    }
+}
+
+
+
+
+//animation
+function removeBlocks(container, x){
+    //define direction
+    if(clickX - x > 0) {
+        //----->
+        clickX = x;
+
+        //we must add video to the right side
+        if (currentLeftIndex + getCurrentVideoCount() + 1 === globalResponse.length) {
+            //have to load new 5 videos
+            getPage(nextPageToken);
+        }
+
+        //delete first video and show last
+        insertVideo(getCurrentVideoCount());
+        let fc = container.firstChild;
+        container.removeChild(fc);
+        currentLeftIndex += 1;
+        container.style.left = '1px';
+    }
+    else
+    {
+        //<------
+        clickX = x;
+
+        //delete last video and show first
+        let fc = container.lastChild;
+        container.removeChild(fc);
+        insertVideoToStart(currentLeftIndex - 1);
+        currentLeftIndex -= 1;
+        container.style.left = '1px';
     }
 }
 
